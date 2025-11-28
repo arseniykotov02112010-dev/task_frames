@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Загрузка файлов</title>
+</head>
+<body>
+    <h2>Форма загрузки файлов</h2>
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" multiple>
+        <input type="submit" value="Загрузить">
+    </form>
+
+    <script>
+        // Скрипт для показа статуса CSP
+        document.querySelector('form').addEventListener('submit', function(e) {
+            console.log('Попытка отправки формы...');
+
+            // Проверяем, заблокирована ли форма CSP
+            setTimeout(function() {
+                if (!e.defaultPrevented) {
+                    console.log('✅ Форма отправлена успешно (CSP не блокирует)');
+                } else {
+                    console.log('❌ CSP заблокировал отправку формы!');
+                }
+            }, 100);
+        });
+
+        // Дополнительная проверка CSP
+        document.addEventListener('securitypolicyviolation', function(e) {
+            console.log('🚫 CSP Violation:', e.violatedDirective);
+            console.log('CSP заблокировал:', e.blockedURI);
+        });
+    </script>
+</body>
+</html>
